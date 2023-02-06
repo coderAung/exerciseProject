@@ -1,0 +1,109 @@
+#version 1
+#function without oop
+
+print('Welcome to the bank.')
+name = ["Lai", "ye"]
+#id = [809]
+password = ["1432003", "11"]
+balance = [20, 10]
+
+def askPassword(userName, userPlace):
+    loginPassword = input("Password - ")
+    if loginPassword == password[userPlace]:
+        print("Login Success.\nWelcome " + userName)
+        passReturn = 1
+    else:
+        print("Incorrect password.")
+        passReturn = 0
+    return passReturn
+
+def creatAccount():
+    yourName = input("Name == ")
+    if yourName not in name:
+        yourPassword = input("Password = ")
+        confirmPassword = input("Confirm your password = ")
+        if yourPassword != confirmPassword:
+            print('passwords are not same')
+        else:
+            name.append(yourName)
+            password.append(yourPassword)
+            print('this is from line 30 create account function')
+
+
+def login():
+    loginName = input("Name - ")
+    if loginName in name:
+        location = name.index(loginName)
+        loginReturn = askPassword(loginName, location)
+        while loginReturn == 0:
+            loginReturn = askPassword(loginName, location)
+    else:
+        print("User not found")
+        loginReturn = 0
+    return loginReturn, loginName
+
+def outerCallFunction(outCallTest):
+    if outCallTest == '3':
+        outerReturn = 0
+        passName = 'none'
+        print("Bye Bye")
+    elif outCallTest == '1':
+        outerReturn, passName = login()
+    elif outCallTest == '2':
+        pass
+    return outerReturn, passName
+
+def welcomePage():
+    print(" 1. Login to your account\n 2. Create an account\n 3. exit")
+    getStart = input(">>> ")
+    keepStart, gotName  = outerCallFunction(getStart)
+    return keepStart, gotName
+
+def send(id):
+    reciever = input("Reciever name = ")
+    if reciever in name:
+        recievId = name.index(reciever)
+        sentBalance = int(input(" Amount(ks) --- "))
+        if sentBalance >= balance[id]:
+            print("Insufficient balance.")
+        else:
+            balance[id] = balance[id] - sentBalance
+            balance[recievId] = balance[recievId] + sentBalance
+            print("Transanction success.")
+    else:
+        print("User does not exist.")
+
+
+def interCallFunction(inCallTest, id):
+    if inCallTest == '1':
+        send(id)
+        returnStatement = 1
+    elif inCallTest == '2':
+        #withdraw
+        pass
+    elif inCallTest == '3':
+        print("Out")
+        returnStatement = 0
+    else:
+        print("Invalid input.")
+        returnStatement = 1
+    return returnStatement
+
+def interface(currenUser):
+    id = name.index(currenUser)
+    print("Your balance is {} ks.".format(balance[id]))
+    print(" 1. Send \n 2. Wiithdraw \n 3. exit")
+    getInput = input(">>> ")
+    repeatInerface = interCallFunction(getInput, id)
+    return repeatInerface
+
+def mainProcess():
+    keepProcess = 1
+    while keepProcess != 0:
+        keepProcess, currentName = welcomePage()
+        if keepProcess == 1:
+            running = 1
+            while running != 0:
+                running = interface(currentName)
+
+mainProcess()
