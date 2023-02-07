@@ -1,5 +1,5 @@
 #version 1
-#function without oop
+#only function without oop
 
 print('Welcome to the bank.')
 name = ["Lai", "ye"]
@@ -24,11 +24,19 @@ def creatAccount():
         confirmPassword = input("Confirm your password = ")
         if yourPassword != confirmPassword:
             print('passwords are not same')
+            accReturn = -1
         else:
             name.append(yourName)
             password.append(yourPassword)
             print('this is from line 30 create account function')
-
+            print("Account created successfully.")
+            balance.append(0)
+            accReturn = 1
+    else:
+        yourName = 'none'
+        print("Name already exists. Choose another.")
+        accReturn = -1
+    return accReturn, yourName
 
 def login():
     loginName = input("Name - ")
@@ -39,7 +47,7 @@ def login():
             loginReturn = askPassword(loginName, location)
     else:
         print("User not found")
-        loginReturn = 0
+        loginReturn = -1
     return loginReturn, loginName
 
 def outerCallFunction(outCallTest):
@@ -50,7 +58,11 @@ def outerCallFunction(outCallTest):
     elif outCallTest == '1':
         outerReturn, passName = login()
     elif outCallTest == '2':
-        pass
+        outerReturn, passName = creatAccount()
+    else:
+        print("Invalid")
+        outerReturn = -1
+        passName = 'none'
     return outerReturn, passName
 
 def welcomePage():
@@ -72,7 +84,6 @@ def send(id):
             print("Transanction success.")
     else:
         print("User does not exist.")
-
 
 def interCallFunction(inCallTest, id):
     if inCallTest == '1':
@@ -105,5 +116,6 @@ def mainProcess():
             running = 1
             while running != 0:
                 running = interface(currentName)
+
 
 mainProcess()
