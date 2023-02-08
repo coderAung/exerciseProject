@@ -1,5 +1,5 @@
 #version 1
-#only function without oop
+#only functions without oop
 
 print('Welcome to the bank.')
 name = ["Lai", "ye"]
@@ -28,7 +28,7 @@ def creatAccount():
         else:
             name.append(yourName)
             password.append(yourPassword)
-            print('this is from line 30 create account function')
+            #print('this is from line 30 create account function')
             print("Account created successfully.")
             balance.append(0)
             accReturn = 1
@@ -73,7 +73,7 @@ def welcomePage():
 
 def send(id):
     reciever = input("Reciever name = ")
-    if reciever in name:
+    if reciever in name and reciever != name[id]:
         recievId = name.index(reciever)
         sentBalance = int(input(" Amount(ks) --- "))
         if sentBalance >= balance[id]:
@@ -85,12 +85,28 @@ def send(id):
     else:
         print("User does not exist.")
 
+def withdraw(id):
+    if balance[id] <= 0:
+        print("You can't withdraw because of low balance.")
+    else:
+        withdrawBalance = int(input("Amount = "))
+        if withdrawBalance > balance[id]:
+            print("Insufficient balance.")
+        else:
+            yourPassword = input("Password = ")
+            if yourPassword == password[id]:
+                balance[id] = balance[id] - withdrawBalance
+                print("Withdrawal success.")
+            else:
+                print("Wrong Password.")
+
 def interCallFunction(inCallTest, id):
     if inCallTest == '1':
         send(id)
         returnStatement = 1
     elif inCallTest == '2':
-        #withdraw
+        withdraw(id)
+        returnStatement = 1
         pass
     elif inCallTest == '3':
         print("Out")
